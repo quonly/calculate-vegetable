@@ -115,7 +115,7 @@ function App() {
           </Droppable>
         </DragDropContext>
 
-        <div className="overflow-x-hidden mt-20 max-w-xl mx-auto">
+        <div className="overflow-x-hidden mt-16 sm:mt-20 max-w-xl mx-auto">
           <h2 className="text-center text-2xl font-semibold">สรุปผล</h2>
           <table className="table">
             <thead>
