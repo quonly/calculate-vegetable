@@ -115,16 +115,16 @@ function App() {
           </Droppable>
         </DragDropContext>
 
-        <div className="overflow-x-hidden mt-8">
+        <div className="overflow-x-hidden mt-20 max-w-xl mx-auto">
           <h2 className="text-center text-2xl font-semibold">สรุปผล</h2>
           <table className="table">
             <thead>
               <tr>
-                <th>ไอคอน</th>
+                <th className="text-center">ไอคอน</th>
                 <th>ชื่อ</th>
-                <th>ราคา</th>
-                <th>จำนวน</th>
-                <th>รวม</th>
+                <th className="text-end">ราคา</th>
+                <th className="text-end">จำนวน</th>
+                <th className="text-end">รวม</th>
               </tr>
             </thead>
             <tbody>
