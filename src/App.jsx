@@ -79,7 +79,7 @@ function App() {
 
   return (
     <>
-      <div className="container px-4 pt-6 pb-22 mx-auto">
+      <div className="container px-4 pt-6 pb-40 mx-auto">
         <h1 className="text-3xl text-center pb-2 font-bold mb-6">
           คำนวณราคาผัก
         </h1>
