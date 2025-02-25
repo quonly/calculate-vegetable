@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Card from "./components/Card";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 
@@ -6,43 +6,43 @@ const initialItems = {
   "🌽": {
     icon: "🌽",
     name: "ข้าวโพด",
-    price: 0,
-    qty: 0,
+    price: "-",
+    qty: "-",
     bg: "bg-amber-100",
   },
   "🍅": {
     icon: "🍅",
     name: "มะเขือเทศ",
-    price: 0,
-    qty: 0,
+    price: "-",
+    qty: "-",
     bg: "bg-red-100",
   },
   "🥦": {
     icon: "🥦",
     name: "บรอกโคลี",
-    price: 0,
-    qty: 0,
+    price: "-",
+    qty: "-",
     bg: "bg-green-100",
   },
   "🍆": {
     icon: "🍆",
     name: "มะเขือยาว",
-    price: 0,
-    qty: 0,
+    price: "-",
+    qty: "-",
     bg: "bg-purple-100",
   },
   "🥕": {
     icon: "🥕",
     name: "แครอท",
-    price: 0,
-    qty: 0,
+    price: "-",
+    qty: "-",
     bg: "bg-orange-100",
   },
 };
-
 function App() {
   const [items, setItems] = useState(initialItems);
   const [itemOrder, setItemOrder] = useState(Object.keys(initialItems));
+  const modalRef = useRef(null);
 
   function handleCalculate(id, key, value) {
     setItems((items) => {
@@ -57,10 +57,9 @@ function App() {
   }
 
   function reset() {
-    if (window.confirm("รีเซ็ตอย่างมั่นใจ?")) {
-      setItems(initialItems);
-      setItemOrder(Object.keys(initialItems));
-    }
+    setItems(initialItems);
+    setItemOrder(Object.keys(initialItems));
+    modalRef.current.close();
   }
 
   function onDragEnd(result) {
@@ -71,6 +70,33 @@ function App() {
     setItemOrder(newOrder);
   }
 
+  function handleSort(e) {
+    const value = e.target.value;
+    let sortedOrder = [...itemOrder];
+
+    if (value === "price-desc") {
+      sortedOrder.sort(
+        (a, b) =>
+          (parseInt(items[b].price) || 0) - (parseInt(items[a].price) || 0)
+      );
+    } else if (value === "price-asc") {
+      sortedOrder.sort(
+        (a, b) =>
+          (parseInt(items[a].price) || 0) - (parseInt(items[b].price) || 0)
+      );
+    } else if (value === "qty-desc") {
+      sortedOrder.sort(
+        (a, b) => (parseInt(items[b].qty) || 0) - (parseInt(items[a].qty) || 0)
+      );
+    } else if (value === "qty-asc") {
+      sortedOrder.sort(
+        (a, b) => (parseInt(items[a].qty) || 0) - (parseInt(items[b].qty) || 0)
+      );
+    }
+
+    setItemOrder(sortedOrder);
+  }
+
   const total = Object.values(items).reduce((acc, item) => {
     const price = parseInt(item.price) || 0;
     const qty = parseInt(item.qty) || 0;
@@ -79,6 +105,22 @@ function App() {
 
   return (
     <>
+      <dialog className="modal modal-bottom sm:modal-middle" ref={modalRef}>
+        <div className="modal-box">
+          <h3 className="font-bold text-lg text-center">รีเซ็ตอย่างมั่นใจ?</h3>
+          <div className="modal-action justify-center">
+            <form method="dialog">
+              <button className="btn btn-dash btn-primary">ปิด</button>
+            </form>
+            <button className="btn btn-primary" onClick={reset}>
+              ยืนยัน
+            </button>
+          </div>
+        </div>
+        <form method="dialog" className="modal-backdrop">
+          <button>close</button>
+        </form>
+      </dialog>
       <div className="container px-4 pt-6 pb-40 mx-auto">
         <h1 className="text-3xl text-center pb-2 font-bold mb-6">
           คำนวณราคาผัก
@@ -116,7 +158,7 @@ function App() {
         </DragDropContext>
 
         <div className="overflow-x-hidden mt-16 sm:mt-20 max-w-xl mx-auto">
-          <h2 className="text-center text-2xl font-semibold">สรุปผล</h2>
+          <h2 className="text-center text-2xl font-semibold mb-4">สรุปผล</h2>
           <table className="table">
             <thead>
               <tr>
@@ -134,9 +176,9 @@ function App() {
                   <tr key={item.icon}>
                     <td className="text-center">{item.icon}</td>
                     <td>{item.name}</td>
-                    <td className="text-end">{item.price}</td>
-                    <td className="text-end">{item.qty}</td>
-                    <td className="text-end">{item.price * item.qty}</td>
+                    <td className="text-end">{parseInt(item.price) || 0}</td>
+                    <td className="text-end">{parseInt(item.qty) || 0}</td>
+                    <td className="text-end">{item.price * item.qty || "0"}</td>
                   </tr>
                 );
               })}
@@ -149,7 +191,7 @@ function App() {
 
                 <td className="text-end">
                   {Object.values(items).reduce(
-                    (acc, item) => acc + parseInt(item.qty) || 0,
+                    (acc, item) => acc + (parseInt(item.qty) || 0),
                     0
                   )}
                 </td>
@@ -160,16 +202,34 @@ function App() {
         </div>
       </div>
       <div className="fixed bottom-0 w-full bg-base-200">
-        <div className="flex gap-4 items-center divide-x p-4">
-          <div className="flex justify-between items-end flex-grow pe-2">
-            <span className="font-medium">ยอดสุทธิ:</span>
+        <div className="grid gap-4 grid-cols-2 divide-x p-4">
+          <div className="grid place-content-center">
+            <span className="text-sm">ยอดสุทธิ:</span>
             <div className="space-x-2">
-              <span className="font-bold text-5xl">{total}</span>
+              <span className="font-bold text-5xl text-emerald-400">
+                {total}
+              </span>
               <span>บาท</span>
             </div>
           </div>
           <div className="flex flex-col gap-2">
-            <button className="btn btn-outline btn-sm w-full" onClick={reset}>
+            <select
+              defaultValue="เรียง"
+              className="select text-sm"
+              onChange={handleSort}
+            >
+              <option value="เรียง" disabled>
+                เรียง
+              </option>
+              <option value="price-desc">ราคามาก - น้อย</option>
+              <option value="price-asc">ราคาน้อย - มาก</option>
+              <option value="qty-desc">จำนวนมาก - น้อย</option>
+              <option value="qty-asc">จำนวนน้อย - มาก</option>
+            </select>
+            <button
+              className="btn btn-dash btn-primary btn-sm w-full"
+              onClick={() => modalRef.current.showModal()}
+            >
               รีเซ็ต
             </button>
           </div>
@@ -192,7 +252,7 @@ function App() {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           href={`#${item.icon}`}
-                          className="text-xl btn btn-primary no-underline h-12"
+                          className="text-2xl btn btn-dash btn-primary h-12"
                         >
                           {item.icon}
                         </a>

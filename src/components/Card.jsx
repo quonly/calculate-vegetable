@@ -10,7 +10,7 @@ export default function Card({ item, onCalculate }) {
     >
       <div className="flex gap-2 justify-center">
         <p
-          className={`my-auto rounded-full h-28 w-28 text-6xl grid place-items-center p-2 bg-amber-100 ${item.bg}`}
+          className={`my-auto rounded-full h-28 w-28 text-6xl grid place-items-center p-2 ${item.bg}`}
         >
           {item.icon}
         </p>
@@ -27,9 +27,10 @@ export default function Card({ item, onCalculate }) {
               className="select"
               onChange={(e) => onCalculate(item.icon, "price", e.target.value)}
             >
-              <option value="0" disabled={true}>
+              <option value="-" disabled={true}>
                 เลือกราคา
               </option>
+              <option value="0">0</option>
               <option value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -46,13 +47,15 @@ export default function Card({ item, onCalculate }) {
             className="select"
             onChange={(e) => onCalculate(item.icon, "qty", e.target.value)}
           >
-            <option value="0" disabled={true}>
+            <option value="-" disabled={true}>
               เลือกจำนวน
             </option>
+            <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
+            <option value="5">5</option>
             <option value="6">6</option>
             <option value="7">7</option>
             <option value="8">8</option>
