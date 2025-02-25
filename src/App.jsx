@@ -171,17 +171,37 @@ function App() {
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-5">
-          {Object.values(items).map((item) => (
-            <a
-              key={item.icon}
-              href={`#${item.icon}`}
-              className="text-xl btn btn-primary no-underline h-12"
-            >
-              {item.icon}
-            </a>
-          ))}
-        </div>
+        <DragDropContext onDragEnd={onDragEnd}>
+          <Droppable droppableId="itemOrder" direction="horizontal">
+            {(provided) => (
+              <div
+                className="grid grid-cols-5"
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+              >
+                {itemOrder.map((key, index) => {
+                  const item = items[key];
+                  return (
+                    <Draggable key={key} draggableId={key} index={index}>
+                      {(provided) => (
+                        <a
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          href={`#${item.icon}`}
+                          className="text-xl btn btn-primary no-underline h-12"
+                        >
+                          {item.icon}
+                        </a>
+                      )}
+                    </Draggable>
+                  );
+                })}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+        </DragDropContext>
       </div>
     </>
   );
