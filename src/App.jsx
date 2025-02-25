@@ -128,15 +128,18 @@ function App() {
               </tr>
             </thead>
             <tbody>
-              {Object.values(items).map((item) => (
-                <tr key={item.icon}>
-                  <td className="text-center">{item.icon}</td>
-                  <td>{item.name}</td>
-                  <td className="text-end">{item.price}</td>
-                  <td className="text-end">{item.qty}</td>
-                  <td className="text-end">{item.price * item.qty}</td>
-                </tr>
-              ))}
+              {itemOrder.map((key) => {
+                const item = items[key];
+                return (
+                  <tr key={item.icon}>
+                    <td className="text-center">{item.icon}</td>
+                    <td>{item.name}</td>
+                    <td className="text-end">{item.price}</td>
+                    <td className="text-end">{item.qty}</td>
+                    <td className="text-end">{item.price * item.qty}</td>
+                  </tr>
+                );
+              })}
             </tbody>
             <tfoot>
               <tr>
