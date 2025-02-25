@@ -125,37 +125,15 @@ function App() {
         <h1 className="text-3xl text-center pb-2 font-bold mb-6">
           คำนวณราคาผัก
         </h1>
-
-        <DragDropContext onDragEnd={onDragEnd}>
-          <Droppable droppableId="items">
-            {(provided) => (
-              <div
-                className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 mb-6"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                {itemOrder.map((item, index) => (
-                  <Draggable key={item} draggableId={item} index={index}>
-                    {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
-                        <Card
-                          key={item}
-                          item={items[item]}
-                          onCalculate={handleCalculate}
-                        />
-                      </div>
-                    )}
-                  </Draggable>
-                ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
-        </DragDropContext>
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 mb-6">
+          {itemOrder.map((item) => (
+            <Card
+              key={item}
+              item={items[item]}
+              onCalculate={handleCalculate}
+            />
+          ))}
+        </div>
 
         <div className="overflow-x-hidden mt-16 sm:mt-20 max-w-xl mx-auto">
           <h2 className="text-center text-2xl font-semibold mb-4">สรุปผล</h2>
@@ -204,18 +182,18 @@ function App() {
       <div className="fixed bottom-0 w-full bg-base-200">
         <div className="grid gap-4 grid-cols-2 divide-x p-4">
           <div className="grid place-content-center">
-            <span className="text-sm">ยอดสุทธิ:</span>
+            <span className="text-sm font-medium">ยอดสุทธิ:</span>
             <div className="space-x-2">
-              <span className="font-bold text-5xl text-emerald-400">
+              <span className="font-bold text-6xl">
                 {total}
               </span>
-              <span>บาท</span>
+              <span className="font-medium">บาท</span>
             </div>
           </div>
           <div className="flex flex-col gap-2">
             <select
               defaultValue="เรียง"
-              className="select text-sm"
+              className="select text-sm w-full"
               onChange={handleSort}
             >
               <option value="เรียง" disabled>
@@ -252,7 +230,7 @@ function App() {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           href={`#${item.icon}`}
-                          className="text-2xl btn btn-dash btn-primary h-12"
+                          className="text-2xl btn rounded-none btn-primary h-12"
                         >
                           {item.icon}
                         </a>
