@@ -4,7 +4,10 @@ export default function Card({ item, onCalculate }) {
   const total = price * qty;
 
   return (
-    <div className="p-4 shadow-sm border border-gray-600 bg-base-100 grid sm:grid-cols-2 rounded-lg gap-6 sm:gap-4">
+    <div
+      id={item.icon}
+      className="p-4 shadow-sm border border-gray-600 bg-base-100 grid lg:grid-cols-2 rounded-lg gap-6 sm:gap-4 scroll-mt-10"
+    >
       <div className="flex gap-2 justify-center">
         <p
           className={`my-auto rounded-full h-28 w-28 text-6xl grid place-items-center p-2 bg-amber-100 ${item.bg}`}
@@ -13,11 +16,11 @@ export default function Card({ item, onCalculate }) {
         </p>
       </div>
       <div className="space-y-3">
-        <h2 className="text-xl text-center sm:text-start font-medium">
+        <h2 className="text-xl text-center lg:text-start font-medium">
           {item.name}
         </h2>
         <div>
-          <label className="select">
+          <label className="select w-full">
             <span className="label w-22">ราคา:</span>
             <select
               value={item.price}
@@ -36,7 +39,7 @@ export default function Card({ item, onCalculate }) {
           </label>
         </div>
 
-        <label className="select">
+        <label className="select w-full">
           <span className="label w-22">จำนวน:</span>
           <select
             value={item.qty}

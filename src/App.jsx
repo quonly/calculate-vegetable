@@ -88,7 +88,7 @@ function App() {
           <Droppable droppableId="items">
             {(provided) => (
               <div
-                className="grid gap-10 sm:grid-cols-2 md:grid-cols-3 mb-6"
+                className="grid gap-10 md:grid-cols-2 lg:grid-cols-3 mb-6"
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
@@ -156,8 +156,8 @@ function App() {
           </table>
         </div>
       </div>
-      <div className="fixed bottom-0 w-full bg-base-200 p-4">
-        <div className="flex gap-4 items-center divide-x">
+      <div className="fixed bottom-0 w-full bg-base-200">
+        <div className="flex gap-4 items-center divide-x p-4">
           <div className="flex justify-between items-end flex-grow pe-2">
             <span className="font-medium">ยอดสุทธิ:</span>
             <div className="space-x-2">
@@ -170,6 +170,17 @@ function App() {
               รีเซ็ต
             </button>
           </div>
+        </div>
+        <div className="grid grid-cols-5">
+          {Object.values(items).map((item) => (
+            <a
+              key={item.icon}
+              href={`#${item.icon}`}
+              className="text-xl btn btn-primary no-underline h-12"
+            >
+              {item.icon}
+            </a>
+          ))}
         </div>
       </div>
     </>

@@ -3,6 +3,9 @@
 
 @import "./daisyui.css";
 
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: 'Anuphan', serif;
