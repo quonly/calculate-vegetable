@@ -6,7 +6,7 @@ export default function Card({ item, onCalculate }) {
   return (
     <div
       id={item.icon}
-      className="p-4 shadow-sm border border-gray-600 bg-base-100 grid lg:grid-cols-2 rounded-lg gap-6 sm:gap-4 scroll-mt-10"
+      className="p-4 shadow-sm bg-base-100 grid lg:grid-cols-2 rounded-xl gap-6 sm:gap-4 scroll-mt-10"
     >
       <div className="flex gap-2 justify-center">
         <p
